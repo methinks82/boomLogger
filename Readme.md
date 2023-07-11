@@ -1,4 +1,5 @@
 # **Boom Logger**
+> **Warning**
 > Boom requires C++ 17 or higher to compile. This should be available in most modern environments, please check your IDE's documentation on how to enable it
 
 Boom is a logging library that is easy to use and light-weight while still being customizable.
@@ -29,6 +30,7 @@ When a message is logged it is given a level, which will determine how it is lat
 1. **Debug** - Data being used for debugging during development  
     *Variable values, states, events, etc*  
     Created by calling **boom::Log::debug(message, [caller], [code])**
+> **Note**
 > Debug messages will only be handled in debug builds. They will be ignored in release builds  
 To display debug messages in a release build, call **miniLog::Log::forceDebug(true)**
 
