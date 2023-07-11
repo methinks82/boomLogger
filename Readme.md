@@ -1,4 +1,5 @@
 # **Boom Logger**
+> Boom requires C++ 17 or higher to compile. This should be available in most modern environments, please check your IDE's documentation on how to enable it
 
 Boom is a logging library that is easy to use and light-weight while still being customizable.
 
@@ -16,7 +17,7 @@ That's it! With this example your message will be output to the console as well 
 ---
 ## Concepts
 
-While the first example works, chances are that you need something a bit more specific. This is done by using **streams** to configure the logger.
+While the first example works, chances are that you need something a bit more specific. This is done by configuring the logger using **streams**.
 
 Before configuring it would help to understand how the boom logger works. 
 
