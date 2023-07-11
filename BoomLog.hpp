@@ -27,10 +27,12 @@ For more advanced usage see the readme file
 
 #include <string>
 #include <iostream>
+#include <iomanip> // put_time
 #include <map>
 #include <vector>
 #include <fstream>
 #include <chrono>
+#include <sstream>
 
 #if _DEBUG
 #define SHOW_DEBUG
@@ -158,6 +160,77 @@ namespace boom
 		/// @brief the types of events that this handler is listening for
 		int levels;
 	};
+
+
+	/// @brief Stream that writes the events to a text file
+	class TextFileStream : public Stream
+	{
+	public:
+		/// @brief Constructor
+		/// @param path Name of file to write events to, default is Log.txt
+		TextFileStream(const std::string& fileName = "Log.txt") :file(fileName)
+		{}
+
+		/// @brief Write the event to a text file
+		/// @param event to be written to file
+		virtual void handle(Event& event)
+		{
+			std::fstream f{file, f.app | f.out};
+			if (f.is_open())
+			{
+				std::string msg = event.toString();
+				f.write(msg.c_str(), msg.size());
+			}
+			f.close();
+		}
+
+		/// @brief set a new filename for the stream to write to 
+		/// @param filename new name of the log file
+		void setFilename(const std::string& filename)
+		{
+			file = filename;
+		}
+
+	private:
+		/// @brief Name of file to write to
+		std::string file;
+	};
+
+	/// @brief Stream that outputs the events to the console
+	class ConsoleStream : public Stream
+	{
+	public:
+		/// @brief Send the event to be displayed on a console
+		/// @param event to be sent to console
+		virtual void handle(Event& event)
+		{
+			std::cout << event.toString();
+		}
+	};
+
+	/// @brief Stream that stores a copy of each event
+	class ArchiveStream : public Stream
+	{
+	public:
+		/// @brief Store the event to be handled later
+		/// @param event to be sent to stored
+		virtual void handle(Event& event)
+		{
+			events.push_back(event);
+		}
+
+		/// @brief Access the stored events
+		/// @return a vector containing all stored events
+		std::vector<Event>& getEvents()
+		{
+			return events;
+		}
+
+	private:
+		/// @brief a container to store the events
+		std::vector<Event> events;
+	};
+
 
 
 	class Log
@@ -290,11 +363,7 @@ namespace boom
 	private:
 
 		/// @brief Constructor, private to make it a singleton
-		Log() 
-		{
-			addStream("defaultTextFile", new TextFileStream("log.txt"));
-			addStream("defaultConsole", new ConsoleStream());
-		}
+		Log() = default;
 
 		/// @brief Copy constructor, not used
 		/// @param obj object to copy, not used
@@ -308,6 +377,8 @@ namespace boom
 			if (instance == nullptr)
 			{
 				instance = new Log();
+				instance->addStream("defaultTextFile", new TextFileStream("log.txt"));
+				instance->addStream("defaultConsole", new ConsoleStream());
 			}
 			return instance;
 		}
@@ -323,75 +394,7 @@ namespace boom
 	};
 
 
-	/// @brief Stream that writes the events to a text file
-	class TextFileStream : public Stream
-	{
-	public:
-		/// @brief Constructor
-		/// @param path Name of file to write events to, default is Log.txt
-		TextFileStream(const std::string& fileName = "Log.txt") :file(fileName)
-		{}
-
-		/// @brief Write the event to a text file
-		/// @param event to be written to file
-		virtual void handle(Event& event)
-		{
-			std::fstream f{file, f.app | f.out};
-			if (f.is_open())
-			{
-				std::string msg = event.toString();
-				f.write(msg.c_str(), msg.size());
-			}
-			f.close();
-		}
-		
-		/// @brief set a new filename for the stream to write to 
-		/// @param filename new name of the log file
-		void setFilename(const std::string& filename)
-		{
-			file = filename;
-		}
-
-	private:
-		/// @brief Name of file to write to
-		std::string file;
-	};
-
-	/// @brief Stream that outputs the events to the console
-	class ConsoleStream : public Stream
-	{
-	public:
-		/// @brief Send the event to be displayed on a console
-		/// @param event to be sent to console
-		virtual void handle(Event& event)
-		{
-			std::cout << event.toString();
-		}
-	};
-
-	/// @brief Stream that stores a copy of each event
-	class ArchiveStream : public Stream
-	{
-	public:
-		/// @brief Store the event to be handled later
-		/// @param event to be sent to stored
-		virtual void handle(Event& event)
-		{
-			events.push_back(event);
-		}
-
-		/// @brief Access the stored events
-		/// @return a vector containing all stored events
-		std::vector<Event>& getEvents()
-		{
-			return events;
-		}
-
-	private:
-		/// @brief a container to store the events
-		std::vector<Event> events;
-	};
-
+	
 
 }
 
