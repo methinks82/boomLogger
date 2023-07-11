@@ -32,7 +32,7 @@ When a message is logged it is given a level, which will determine how it is lat
     Created by calling **boom::Log::debug(message, [caller], [code])**
 > **Note**
 > Debug messages will only be handled in debug builds. They will be ignored in release builds  
-To display debug messages in a release build, call **miniLog::Log::forceDebug(true)**
+To display debug messages in a release build, call **boom::Log::forceDebug(true)**
 
 2. **Info** - Something expected occurred  
     *Something is loaded, the user has taken an action, etc*  
