@@ -1,5 +1,5 @@
 # **Boom Logger**
-> **Warning**
+
 > Boom requires C++ 17 or higher to compile. This should be available in most modern environments, please check your IDE's documentation on how to enable it
 
 Boom is a logging library that is easy to use and light-weight while still being customizable.
@@ -92,7 +92,7 @@ By default a stream listens to all levels of events. To specify what levels a st
 myStream.setLevels(boom::LEVELS::DEBUG | boom::LEVELS::WARNING)
 ```
 
-miniLog comes with several types of streams:
+Boom comes with several types of streams:
 - **Textfile Stream:** writes events to a text file
 - **Console Stream:** writes event directly onto a console
 - **Archive Stream:** store the events for later processing
@@ -105,9 +105,9 @@ By default, the Log will be configured with a TextFile Stream (with an id of *de
 
 ### **Events**
 When you log a message an **Event** is created. These events contain the following data:
-* **Timestamp-** When the event was created. This is automatically set when the event is created
-* **Level-** As described above. This is automatically set based on what function creates it
-* **Message-** A description of what happened, set by the user
+* **Timestamp -** When the event was created. This is automatically set when the event is created
+* **Level -** As described above. This is automatically set based on what function creates it
+* **Message -** A description of what happened, set by the user
 * **Caller *[Optional]* -** The name of the function from which the event was logged
 * **Code *[Optional]* -** A user defined error code or something similar
 
@@ -226,9 +226,9 @@ class GUIStream : public boom::Stream
 {
 public:
 	GUIStream()
-    {
-        // find and set the root window. We would probably pass it in as a parameter
-    }
+	{
+        	// initialize the GUI, such as finding and setting the root window
+    	}
 
 	// this is the function that we need to define to make it a valid stream
 	virtual void handle(boom::Event& event)
