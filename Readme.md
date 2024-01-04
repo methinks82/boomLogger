@@ -52,7 +52,7 @@ To display debug messages in a release build, call **boom::Log::forceDebug(true)
 
 ---
 ## Configuring boom
-Boom's behaviour is changed through the use of **Streams**.
+Boom's behaviour is configured by using **Streams**.
 Each stream listens to one or more type (or **level**) of event and does something with it.
 
 We do this in two steps:
@@ -91,6 +91,9 @@ By default a stream listens to all levels of events. To specify what levels a st
 // tell the stream to listen for debug and warning events
 myStream.setLevels(boom::LEVELS::DEBUG | boom::LEVELS::WARNING)
 ```
+
+>[!TIP]
+>If you want to add all of the level to a stream you can set them all at once using the **ALL_LEVELS** flag
 
 Boom comes with several types of streams:
 - **Textfile Stream:** writes events to a text file
