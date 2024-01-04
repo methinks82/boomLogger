@@ -102,7 +102,7 @@ Boom comes with several types of streams:
 
 You can also create custom streams (Instructions below)
 
-By default, the Log will be configured with a TextFile Stream (with an id of *defaultTextFile*) and a Console Stream (*defaultConsole*), both of which listen to all levels. These can be modified or removed just like all other streams.
+By default, the Log will be configured with a TextFile Stream (with an id of *"defaultTextFile"*) and a Console Stream (*"defaultConsole"*), both of which listen to all levels. These can be modified or removed just like all other streams.
 
 
 
@@ -147,6 +147,17 @@ public:
 };
 ```
 You can then add the custom stream to the logger just like any other stream.
+
+### Special functions in streams
+Some of the steams have have special access functions
+- The **TextFileStream** has a function called *setFileName* that allows you to choose what file to write the logs to
+  ``` c++
+  void TextFileStream::setFileName(const std::string& filename)
+  ```
+- The **ArchiveStream** has a function called *getEvents* that returns all stored events
+  ``` c++
+  sdt::vector<Event>& ArchiveStream::getEvents()
+  ```
 
 ---
 ## Example
